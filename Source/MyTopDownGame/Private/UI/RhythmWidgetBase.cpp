@@ -12,7 +12,14 @@ void URhythmWidgetBase::NativeTick(const FGeometry& MyGeometry, float InDeltaTim
 	
 	if (bIsActive && Border_Inner)
 	{
-		// 累加缩放值
+		if (bIsActive && FMath::FRand() < 0.4f) // 1% 的几率在这一帧开始晃动
+		{
+			APlayerController* PC = GetOwningPlayer();
+			if (PC && RhythmCameraShakeClass)
+			{
+				PC->ClientStartCameraShake(RhythmCameraShakeClass, 1.0f);
+			}
+		}// 累加缩放值
 		CurrentScale += GrowthSpeed * InDeltaTime;
 
 		// 直接设置 Border 的渲染缩放
@@ -36,7 +43,13 @@ void URhythmWidgetBase::StartRhythm()
 	bIsActive = true;
 	CurrentScale = 0.0f;
 
-	
+	// --- 新增：随机偏移逻辑 ---
+	// 假设你想在 X 和 Y 轴上产生 -50 到 50 像素之间的随机偏移
+	float RandomX = FMath::RandRange(-200.0f, 200.0f);
+	float RandomY = FMath::RandRange(-100.0f, 100.0f);
+    
+	// 设置整个 Widget 的渲染平移 (Render Translation)
+	SetRenderTranslation(FVector2D(RandomX, RandomY));
 	if (Border_Inner)
 	{
 		Border_Inner->SetVisibility(ESlateVisibility::Visible);

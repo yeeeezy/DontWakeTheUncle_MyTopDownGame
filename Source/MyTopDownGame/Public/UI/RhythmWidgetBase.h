@@ -23,6 +23,9 @@ public:
 	UPROPERTY(BlueprintReadWrite, Category = "Rhythm")
 	bool bIsActive = false;
 
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Shake")
+	TSubclassOf<class UCameraShakeBase> RhythmCameraShakeClass;
+
 	UFUNCTION(BlueprintImplementableEvent)
 	void PlayPerfectAnim();
 
